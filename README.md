@@ -1,5 +1,7 @@
 # 代码工程化构建
-leran包管理
+* leran(#leran包管理)
+* typescript(#typescript)
+## leran包管理
 ```bash
 npx leran init --independent
 
@@ -13,7 +15,8 @@ npx leran init --independent
   
 # 创建一个包gpnote默认放在 workspaces[0]所指位置
 lerna create gpnote 
-
+A）提供--ignore-version-check标志或类似标志。
+B）提供ignoreVersionCheck为lerna.json选项
 # 创建一个包gpnote指定放在 packages/@gp0320文件夹下，注意必须在workspaces先写入packages/@gp0320，看上面
 lerna create gpnote packages/@gp0320
 ## 命令
@@ -81,3 +84,11 @@ lerna add babel-core
 `lerna publish`
 
     会打tag，上传git,上传npm。 如果你的包名是带scope的例如："name": "@gp0320/gpwebpack", 那需要在packages.json添加
+
+
+  ## typescript
+  安装
+```bash
+yarn add -D typescript ts-loader
+npx tsc --init
+```

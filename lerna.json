@@ -1,8 +1,8 @@
 {
   "packages": [
-    "packages/*",
-    "packages/server"
+    "packages/*"
   ],
+  "npmClient":"yarn",
   "command": {
     "publish": {
       "ignoreChanges": ["ignored-file", "*.md"],
@@ -14,5 +14,14 @@
       "npmClientArgs": ["--no-package-lock"]
     }
   },
+  "ignoreChanges": [
+    "**/*.md",
+    "**/*.test.ts",
+    "**/*.e2e.ts",
+    "**/fixtures/**",
+    "**/test/**"
+  ],
+  "useWorkspaces":false,
   "version": "independent"
+  
 }

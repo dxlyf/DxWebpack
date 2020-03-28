@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "noImplicitAny": true,
+   // "module": "es6",
+    "target": "esnext",
+    "jsx": "react",
+    "noImplicitReturns":true,//	不是函数的所有返回路径都有返回值时报错。
+    "forceConsistentCasingInFileNames":true,//禁止对同一个文件的不一致的引用。
+    "moduleResolution":"Node",//决定如何处理模块。或者是"Node"对于Node.js/io.js，或者是"Classic"（默认）。查看模块解析了解详情。
+    "strict":true,//严格模式
+    "allowJs": true,
+    "experimentalDecorators":true,//启用实验性的ES装饰器。
+    "declaration":true,//生成*.d.ts文件
+    "skipLibCheck":true,//忽略所有的声明文件（ *.d.ts）的类型检查。
+    "suppressImplicitAnyIndexErrors":true //阻止 --noImplicitAny对缺少索引签名的索引对象报错。查看 issue #1232了解详情。
+  },
+  "exclude": [
+    "node_modules",
+    "dist",
+    "**/*.spec.ts",
+    "lib",
+    "fixtures",
+    "examples"
+  ]
+}
