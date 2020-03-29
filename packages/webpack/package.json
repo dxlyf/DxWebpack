@@ -5,6 +5,9 @@
   "author": "fanyonglong <yonglong5305350@163.com>",
   "homepage": "https://github.com/fanyonglong/DxWebpack#readme",
   "license": "ISC",
+  "bin":{
+    "dx-webpack":"bin/index.js"
+  },
   "main": "lib/webpack.js",
   "directories": {
     "lib": "lib",
@@ -24,6 +27,8 @@
     "url": "https://github.com/fanyonglong/DxWebpack/issues"
   },
   "devDependencies":{
-    "cross-env":"^7.0.2"
+    "cross-env":"^7.0.2",
+    "webpack-chain":"^6.4.0",
+    "webpack":"^4.42.1"
   }
 }

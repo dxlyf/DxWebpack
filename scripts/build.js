@@ -8,13 +8,22 @@ const pkgs = fs.readdirSync(pkgPath);
 //console.log(argv)
 const pkgConfigs=[{
     filename:'[name].js',
-    library:"myLibrary",
+    library:"[name]",
     devtool:"none",//"cheap-module-source-map",
     target:"web",//node
-    libraryTarget:"commonjs"
-}]
+    libraryTarget:"umd",
+    path:"dist"
+},{
+    filename:'[name].js',
+    library:"myLibrary",
+    devtool:"none",//"cheap-module-source-map",
+    target:"node",//node
+    libraryTarget:"commonjs2",//commonjs2
+    path:"lib"
+}];
+const buildPkgs=['webpack'];
 function getConfigs() {
-    return pkgs.reduce((a,name)=> {
+    return pkgs.filter(name=>buildPkgs.includes(name)).reduce((a,name)=> {
         return a.concat(buildConfig(name));
     },[]);  
 }
@@ -48,7 +57,9 @@ function buildConfig(name) {
         return {
             mode:argv.mode=='dev'?"development":"production",//production,development,none
             context: path.join(pkgPath,name),
-            entry: `./index.ts`,
+            entry: {
+                [name]:`./src/index.ts`
+            },
             devtool:d.devtool,
             resolve: {
                 extensions: ['.tsx', '.ts', '.js']
@@ -57,7 +68,7 @@ function buildConfig(name) {
                 filename:d.filename,
                 library:d.library,
                 libraryTarget:d.libraryTarget,
-                path: path.join(pkgPath,name, 'dist')
+                path: path.join(pkgPath,name, d.path)
             },
             target:d.target,
             plugins:[new CleanWebpackPlugin()]
