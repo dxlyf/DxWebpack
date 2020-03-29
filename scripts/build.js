@@ -21,7 +21,7 @@ const pkgConfigs=[{
     libraryTarget:"commonjs2",//commonjs2
     path:"lib"
 }];
-const buildPkgs=['webpack'];
+const buildPkgs=['webpack','gulp'];
 function getConfigs() {
     return pkgs.filter(name=>buildPkgs.includes(name)).reduce((a,name)=> {
         return a.concat(buildConfig(name));
