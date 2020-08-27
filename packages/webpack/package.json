@@ -1,34 +1,35 @@
 {
-  "name": "@dxyl/webpack",
+  "name": "webpack",
   "version": "1.0.0",
-  "description": "> TODO: description",
-  "author": "fanyonglong <yonglong5305350@163.com>",
-  "homepage": "https://github.com/fanyonglong/DxWebpack#readme",
-  "license": "ISC",
-  "bin":{
-    "dx-webpack":"bin/index.js"
-  },
-  "main": "lib/webpack.js",
-  "directories": {
-    "lib": "lib",
-    "test": "__tests__"
-  },
-  "files": [
-    "lib"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/fanyonglong/DxWebpack.git"
-  },
+  "main": "index.js",
+  "license": "MIT",
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "node:dev": "node ./scripts/dev",
+    "node:build": "node ./scripts/build",
+    "start": "cross-env isDevServer=true webpack-dev-server --config ./src/config/webpack.config.js --entry ./examples/index.js --typescript --react",
+    "build": "webpack --config ./src/config/webpack.config.js --entry ./examples/index.js  --typescript --react",
+    "watch": "webpack --watch --config ./config/webpack.config.js"
   },
-  "bugs": {
-    "url": "https://github.com/fanyonglong/DxWebpack/issues"
-  },
-  "devDependencies":{
-    "cross-env":"^7.0.2",
-    "webpack-chain":"^6.4.0",
-    "webpack":"^4.42.1"
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/core": "^7.11.4",
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
+    "@babel/plugin-proposal-decorators": "^7.10.5",
+    "@babel/plugin-proposal-private-methods": "^7.10.4",
+    "@babel/preset-env": "^7.11.0",
+    "@babel/preset-react": "^7.10.4",
+    "@babel/preset-typescript": "^7.10.4",
+    "@types/webpack": "^4.41.21",
+    "@types/webpack-chain": "^5.2.0",
+    "@types/webpack-dev-server": "^3.11.0",
+    "babel-loader": "^8.1.0",
+    "clean-webpack-plugin": "^3.0.0",
+    "commander": "^6.0.0",
+    "cross-env": "^7.0.2",
+    "html-webpack-plugin": "^4.3.0",
+    "webpack": "^4.44.1",
+    "webpack-chain": "^6.5.1",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
   }
 }
