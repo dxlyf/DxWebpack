@@ -44,5 +44,6 @@
     "execa": "^4.0.3",
     "lodash.mergewith": "^4.6.2",
     "rollup": "^2.26.6"
-  }
+  },
+  "gitHead": "a900d58ec5e94bff799a382ced4466d3b3cdb55a"
 }
