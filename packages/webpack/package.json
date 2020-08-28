@@ -1,16 +1,38 @@
 {
-  "name": "webpack",
+  "name": "@dxyl/webpack",
   "version": "1.0.0",
   "main": "index.js",
+  "bin": {
+    "dxyl-webpack":"./bin/cli"
+  },
+  "files": [
+    "src",
+    "bin"
+  ],
+  "keywords": [
+    "DxWebpack",
+    "webpack"
+  ],
+  "authors": [
+    "fanyonglong"
+  ],
   "license": "MIT",
+  "bugs": "http://github.com/fanyonglong/DxWebpack/issues",
+  "homepage": "https://github.com/fanyonglong/DxWebpack/tree/master/packages/webpack#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fanyonglong/DxWebpack.git"
+  },
   "scripts": {
-    "node:dev": "node ./scripts/dev",
-    "node:build": "node ./scripts/build",
-    "start": "cross-env isDevServer=true webpack-dev-server --config ./src/config/webpack.config.js --entry ./examples/index.js --typescript --react",
-    "build": "webpack --config ./src/config/webpack.config.js --entry ./examples/index.js  --typescript --react",
+    "node:dev": "node ./src/cli serve",
+    "node:build": "node ./src/cli build",
+    "start3": "cross-env isDevServer=true webpack-dev-server --config ./src/config/webpack.config.js --entry ./examples/index.js --typescript --react",
+    "build3": "webpack --config ./src/config/webpack.config.js --entry ./examples/index.js  --typescript --react",
     "watch": "webpack --watch --config ./config/webpack.config.js"
   },
-  "dependencies": {},
+  "dependencies": {
+    
+  },
   "devDependencies": {
     "@babel/core": "^7.11.4",
     "@babel/plugin-proposal-class-properties": "^7.10.4",
@@ -19,14 +41,19 @@
     "@babel/preset-env": "^7.11.0",
     "@babel/preset-react": "^7.10.4",
     "@babel/preset-typescript": "^7.10.4",
+    "@babel/register": "^7.10.5",
     "@types/webpack": "^4.41.21",
     "@types/webpack-chain": "^5.2.0",
     "@types/webpack-dev-server": "^3.11.0",
     "babel-loader": "^8.1.0",
+    "chokidar": "^3.4.2",
     "clean-webpack-plugin": "^3.0.0",
     "commander": "^6.0.0",
     "cross-env": "^7.0.2",
+    "cross-spawn": "^7.0.3",
+    "execa": "^4.0.3",
     "html-webpack-plugin": "^4.3.0",
+    "lodash.mergewith": "^4.6.2",
     "webpack": "^4.44.1",
     "webpack-chain": "^6.5.1",
     "webpack-cli": "^3.3.12",

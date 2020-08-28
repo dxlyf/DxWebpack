@@ -1,10 +1,14 @@
 {
-  "name": "root",
+  "name": "dx-package",
   "version":"1.0.0",
   "private": true,
   "workspaces": [
     "packages/*"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fanyonglong/DxWebpack.git"
+  },
   "devDependencies": {
     "clean-webpack-plugin": "^3.0.0",
     "commander": "^5.0.0",
