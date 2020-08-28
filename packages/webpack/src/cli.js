@@ -5,6 +5,7 @@ const createConfig=require('./config/webpack.base');
 const fs=require('fs');
 const path=require('path');
 const chokidar=require('chokidar');//观察文件
+const chalk=require('chalk');//颜色
 let server;
 function getUserConfig(){
     let opts=commander.opts();
@@ -31,11 +32,11 @@ function getUserConfig(){
                         if(server){
                             server.close();
                         }
-                        console.log('配置发生变化,生新启动',path);
+                        console.log(chalk.green('配置发生变化,生新启动',path));
                         process.send({type:"RESTART",message:"配置发生变化，重新启动"})
                     })
          }catch(e){
-                console.log('异常',e)
+                console.log(chalk.red('异常',e))
          }
     }
     //console.log('userConfig',userConfig)
@@ -76,11 +77,11 @@ function runBuild(entry,command){
     });
     compiler.run((err,stats)=>{
             if(err){
-                console.log('运行错误',err);
+                console.log(chalk.red('运行错误'),err);
                 return;
             }
             if(stats.hasErrors()){
-                console.log('编译错误',stats.toString({errors:true,errorDetails:true}))
+                console.log(chalk.red('编译错误'),stats.toString({errors:true,errorDetails:true}))
                 return;
             }
             console.log(stats.toString({

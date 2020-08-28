@@ -44,9 +44,25 @@
             .mode(mode)
             .context(cwd)
             .devtool('cheap-module-source-map')
-            .target('web')
-            .entry('index').add(entry).end()      
-            .output
+            .target('web');
+        //entry
+        if(typeof entry =='object'){
+            Object.keys(entry).forEach((name)=>{
+                 let entrySet=chainConfig.entry(name);
+                 let value=entry[name];
+                 if(Array.isArray(value)){
+                    value.forEach(v=>{
+                        entrySet.add(v);
+                    })
+                 }else{
+                    entrySet.add(value)
+                 }
+            })
+        }else if(typeof entry=='string'){
+            chainConfig.entry('index').add(entry);
+        }
+            
+        chainConfig.output
             .path(asbOutputPath)
             .filename('[name].js')
             .publicPath('/')

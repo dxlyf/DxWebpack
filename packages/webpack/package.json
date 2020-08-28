@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "bin": {
-    "dxyl-webpack":"./bin/cli"
+    "dxyl-webpack": "./bin/cli"
   },
   "files": [
     "src",
@@ -30,9 +30,7 @@
     "build3": "webpack --config ./src/config/webpack.config.js --entry ./examples/index.js  --typescript --react",
     "watch": "webpack --watch --config ./config/webpack.config.js"
   },
-  "dependencies": {
-    
-  },
+  "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.11.4",
     "@babel/plugin-proposal-class-properties": "^7.10.4",
@@ -46,6 +44,7 @@
     "@types/webpack-chain": "^5.2.0",
     "@types/webpack-dev-server": "^3.11.0",
     "babel-loader": "^8.1.0",
+    "chalk": "^4.1.0",
     "chokidar": "^3.4.2",
     "clean-webpack-plugin": "^3.0.0",
     "commander": "^6.0.0",
