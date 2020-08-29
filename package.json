@@ -13,6 +13,8 @@
     "lerna": "^3.22.1"
   },
   "scripts": {
-    "publish": "lerna publish"
+    "publish": "lerna publish",
+    "bootstrap":"lerna bootstrap",
+    "clean":"lerna clean"
   }
 }
