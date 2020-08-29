@@ -16,6 +16,9 @@
   "authors": [
     "fanyonglong"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "license": "MIT",
   "bugs": "http://github.com/fanyonglong/DxWebpack/issues",
   "homepage": "https://github.com/fanyonglong/DxWebpack/tree/master/packages/rollup#readme",
