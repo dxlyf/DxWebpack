@@ -1,6 +1,6 @@
 {
   "name": "@dxyl/webpack",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "main": "./src/cli.js",
   "bin": {
     "dxyl-webpack": "./bin/cli.js"
