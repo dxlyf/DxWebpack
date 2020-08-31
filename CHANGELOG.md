@@ -5,21 +5,4 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [1.0.5](https://github.com/fanyonglong/DxWebpack/compare/v1.0.2...v1.0.5) (2020-08-31)
 
-**Note:** Version bump only for package @dxyl/webpack
-
-
-
-
-
-
-## 1.0.3 (2020-08-29)
-
-
-
-## 1.0.2 (2020-08-28)
-
-
-
-## 1.0.1 (2020-08-28)
-
-**Note:** Version bump only for package @dxyl/webpack
+**Note:** Version bump only for package dx-package
