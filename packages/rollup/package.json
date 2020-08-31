@@ -1,10 +1,11 @@
 {
   "name": "@dxyl/rollup",
   "version": "1.0.5",
-  "main": "index.js",
+  "main": "./src/cli.js",
   "bin": {
-    "dxyl-rollup": "./bin/cli"
+    "dxyl-rollup": "./bin/cli.js"
   },
+  "description": "rollup build",
   "files": [
     "src",
     "bin"
@@ -27,6 +28,9 @@
     "url": "git+https://github.com/fanyonglong/DxWebpack.git"
   },
   "scripts": {},
+  "peerDependencies": {
+    "rollup": "2.x.x"
+  },
   "dependencies": {
     "@babel/core": "^7.11.4",
     "@babel/plugin-proposal-class-properties": "^7.10.4",
