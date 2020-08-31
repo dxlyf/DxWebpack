@@ -33,7 +33,7 @@
     "build3": "webpack --config ./src/config/webpack.config.js --entry ./examples/index.js  --typescript --react",
     "watch": "webpack --watch --config ./config/webpack.config.js"
   },
-  "devDependencies": {
+  "dependencies": {
     "@babel/core": "^7.11.4",
     "@babel/plugin-proposal-class-properties": "^7.10.4",
     "@babel/plugin-proposal-decorators": "^7.10.5",
