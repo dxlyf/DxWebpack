@@ -7,8 +7,11 @@ const {fork,exec,execFile,spawn}=require('child_process');
 
  function runExecaTask(args){
     try{
-        const subprocess = execa.node(require.resolve('./cli.js'),args,{});
-        subprocess.stdout.pipe(process.stdout);
+        const subprocess = execa.node(require.resolve('./cli.js'),args,{
+            cwd:process.cwd(),
+            stdio:"inherit"
+        });
+        //subprocess.stdout.pipe(process.stdout);
         subprocess.on('message',(data)=>{
             if(data.type=='RESTART'){
                 subprocess.kill();

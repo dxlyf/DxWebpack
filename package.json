@@ -15,6 +15,7 @@
   "scripts": {
     "publish": "lerna publish",
     "bootstrap":"lerna bootstrap",
+    "link":"lerna link --force-local",
     "clean":"lerna clean"
   }
 }

@@ -1,0 +1,37 @@
+{
+  "name": "@dxyl/babel-presets-dx",
+  "version": "1.0.6",
+  "main": "./src/index.js",
+  "description": "babel presets",
+  "files": [
+    "src"
+  ],
+  "keywords": [
+    "webpack",
+    "rollup",
+    "babel"
+  ],
+  "authors": [
+    "fanyonglong"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "bugs": "http://github.com/fanyonglong/DxWebpack/issues",
+  "homepage": "https://github.com/fanyonglong/DxWebpack/tree/master/packages/babel-presets-dx#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fanyonglong/DxWebpack.git"
+  },
+  "scripts": {},
+  "dependencies": {
+    "@babel/core": "^7.11.4",
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
+    "@babel/plugin-proposal-decorators": "^7.10.5",
+    "@babel/plugin-proposal-private-methods": "^7.10.4",
+    "@babel/preset-env": "^7.11.0",
+    "@babel/preset-react": "^7.10.4",
+    "@babel/preset-typescript": "^7.10.4"
+  }
+}

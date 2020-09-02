@@ -11,24 +11,8 @@
     
     
    }
-   const defaultOptions={
-       cwd:process.cwd(),
-       mode:"development",
-       entry:"./src/index.js",
-       babelOptions:{
-         envOptions:{}
-       },//babel配置
-       outputPath:"dist",//输出目录
-       output:{},//输出配置
-       serve:false, //是否启动服务,
-       //plugin
-       html:{title:"dx-webpack"},//是否生成html
-       open:false,
-       css:false,//css配置
-   }
 
    module.exports=(options={})=>{
-        options=mergeConfig(defaultOptions,options)
         let cwd=options.cwd;
         let mode=options.mode||'development';
         let isProduction=mode==='production';
@@ -77,7 +61,7 @@
             .options({
                 babelrc: false,
                 configFile: false,
-                presets:[[require.resolve('./babel-presets-dx'),babelOptions]]
+                presets:[[require.resolve('@dxyl/babel-presets-dx'),babelOptions]]
             });
 
             chainConfig
