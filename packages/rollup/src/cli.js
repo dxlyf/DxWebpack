@@ -33,16 +33,17 @@ function getUserConfig(){
                         presets:[[require.resolve('@dxyl/babel-presets-dx')]],
                     });
                     userConfig=require(modulePath).default||require(modulePath);
-                    const watcher=chokidar.watch(modulePath);
-
-                    watcher.on('change',(path,stats)=>{
-                        watcher.close();
-                        if(server){
-                            server.close();
-                        }
-                        console.log(chalk.green('配置发生变化,生新启动',path));
-                        process.send({type:"RESTART",message:"配置发生变化，重新启动"})
-                    })
+                    if(opts.watch){
+                        const watcher=chokidar.watch(modulePath);
+                        watcher.on('change',(path,stats)=>{
+                            watcher.close();
+                            if(server){
+                                server.close();
+                            }
+                            console.log(chalk.green('配置发生变化,生新启动',path));
+                            process.send({type:"RESTART",message:"配置发生变化，重新启动"})
+                        })
+                    }
          }catch(e){
                 console.log(chalk.red('异常',e))
          }
@@ -111,7 +112,7 @@ async function runBuild(entry,command){
             extensions: ['.mjs', '.js', '.jsx','.ts','.tsx', '.json', '.sass', '.scss'],
             ...nodeResolveOpts
         }),
-        commonjs({include: 'node_modules/**',...commonjsOpts }),
+        commonjs({exclude: 'node_modules/**',...commonjsOpts }),
         json(),
         babel({
         babelrc: false,
@@ -154,7 +155,7 @@ async function runBuild(entry,command){
         ...rollupConfig,
         output:outputs?outputs.map(output=>createOutPutOptions({      
              dir:argv.dir,
-            format:format,
+            format:"umd",
             ...output
         },outputPlugins)):argv.format.map(format=>{
 
