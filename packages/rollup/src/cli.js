@@ -150,9 +150,9 @@ async function runBuild(entry,command){
         ...createInputOptions({
             input:{
                 ...inputs
-            }
+            },
+            ...rollupConfig
         },inputPlugins),
-        ...rollupConfig,
         output:outputs?outputs.map(output=>createOutPutOptions({      
              dir:argv.dir,
             format:"umd",
