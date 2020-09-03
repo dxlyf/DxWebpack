@@ -3,3 +3,5 @@ dist/
 *.log
 *.lock
 *-lock.json
+/yarn.lock
+

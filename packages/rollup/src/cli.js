@@ -12,6 +12,7 @@ const commonjs=require('@rollup/plugin-commonjs');
 const beep=require('@rollup/plugin-beep');//提示错误和警告 
 const json=require('@rollup/plugin-json');
 const replace=require('@rollup/plugin-replace');
+const nodePolyfills=require('rollup-plugin-node-polyfills');
 const mergeWith = require('lodash.mergewith');
 const glob=require('glob');
 let server;
@@ -104,7 +105,8 @@ async function runBuild(entry,command){
     }
     const inputPlugins=[
         beep(),
-       // replace({...(userConfig.replace||{})}),
+        argv.polyfillNode&&nodePolyfills({...(userConfig.nodePolyfills||{})}),
+        replace({...(userConfig.replace||{})}),
         alias({
             ...(userConfig.alias||{})
         }),
@@ -121,7 +123,7 @@ async function runBuild(entry,command){
         exclude:/node_modules/,
         extensions:['.js', '.jsx','.ts','.tsx', '.es6', '.es', '.mjs'],
         presets:[[require.resolve('@dxyl/babel-presets-dx'),babelOptions]],
-        ...(userConfig.babel||{})})]
+        ...(userConfig.babel||{})})].filter(Boolean);
     const outputPlugins=[
      
     ]
@@ -232,6 +234,7 @@ commander.usage('使用rollup编译服务')
 .option('--ts [typescript]','是否支持typescript',false)
 .option('--react [react]','是否支持react',false)
 .option('-g,--glob [glob]','是否启用glob模式',false)
+.option('--no-polyfill-node [polyfillNode]','是否填充nodejs')
 .option('--independent [independent]','是否以输出格式为单独目录,默认放在dist下面',false)
 .option('-o,--output <output...>','输出选项',(value,prev)=>{
         var attr=value.split('=');
