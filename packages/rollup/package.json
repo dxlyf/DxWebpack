@@ -28,7 +28,8 @@
     "url": "git+https://github.com/fanyonglong/DxWebpack.git"
   },
   "scripts": {
-    "test": "node ./src/spawn.js build -i ./examples/index.js -w --ts -f cjs umd"
+    "test": "node ./src/spawn.js build -i ./examples/index.js -w --ts -f cjs umd",
+    "test2": "node ./src/spawn.js build -i ./examples/index.js  --ts -f cjs umd"
   },
   "peerDependencies": {
     "rollup": "2.x.x"

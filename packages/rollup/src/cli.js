@@ -156,7 +156,7 @@ async function runBuild(entry,command){
         output:outputs?outputs.map(output=>createOutPutOptions({      
              dir:argv.dir,
             format:"umd",
-            name:argv.name,
+            name:argv.library,
             exports:argv.exports,
             ...output
         },outputPlugins)):argv.format.map(format=>{
@@ -164,7 +164,7 @@ async function runBuild(entry,command){
             return createOutPutOptions({
                 dir:argv.independent?format:argv.format.length>1?argv.dir+'/'+format:argv.dir,
                 format:format,
-                name:argv.name,
+                name:argv.library,
                 exports:argv.exports,
                 ...argv.output
             })
@@ -225,7 +225,7 @@ commander.usage('使用rollup编译服务')
 .option('-c,--config [configFile]','配置文件')
 .option('-i,--input [input]','输入文件','./src/index.js')
 .option('-d,--dir [dir]','输出目录','dist')
-.option('-n,--name [name]','输出包名','myLibary')
+.option('-n,--library [library]','输出包名','myLibary')
 .option('-f,--format [format...]','格式',['umd'])
 .option('-w,--watch [watch]','观察',false)
 .option('-e,--exports [exports]','导出类型','auto')
