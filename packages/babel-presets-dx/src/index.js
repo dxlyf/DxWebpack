@@ -78,7 +78,7 @@ module.exports=(api, opts, env)=>{
             ...envOptions
         }],
         reactOptions&&[require('@babel/preset-react'),{  useBuiltIns: true,...reactOptions}],
-        typescriptOptions&&[require('@babel/preset-typescript'),{...typescriptOptions}],...presets
+        typescriptOptions&&[require('@babel/preset-typescript'),{isTSX:true,allExtensions:true,...typescriptOptions}],...presets
         ].filter(Boolean),
 
         plugins:[

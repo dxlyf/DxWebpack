@@ -28,7 +28,7 @@
     "url": "git+https://github.com/fanyonglong/DxWebpack.git"
   },
   "scripts": {
-    "test": "node ./src/spawn.js build -i ./examples/index.ts --react --ts -f umd",
+    "test": "node ./src/cli.js build -i ./examples/index.tsx --react --ts -f umd",
     "test2": "node ./src/spawn.js build -i ./examples/index.js  --ts -f cjs umd"
   },
   "peerDependencies": {
@@ -53,7 +53,10 @@
     "glob": "^7.1.6",
     "lodash.mergewith": "^4.6.2",
     "rollup": "^2.26.6",
-    "rollup-plugin-node-polyfills": "^0.2.1"
+    "rollup-plugin-generate-html-template": "^1.7.0",
+    "rollup-plugin-node-polyfills": "^0.2.1",
+    "rollup-plugin-postcss": "^3.1.8",
+    "rollup-plugin-serve": "^1.0.4"
   },
   "gitHead": "c1e52a8e6f7deff9ee109094833820a54dcba108"
 }

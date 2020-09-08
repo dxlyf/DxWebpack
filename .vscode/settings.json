@@ -1,0 +1,8 @@
+{
+    "workbench.editorAssociations": [
+    
+    ],
+    "files.associations": {
+        ".ts":"typescriptreact"   
+    }
+}

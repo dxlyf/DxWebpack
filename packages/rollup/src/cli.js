@@ -13,6 +13,9 @@ const beep=require('@rollup/plugin-beep');//提示错误和警告
 const json=require('@rollup/plugin-json');
 const replace=require('@rollup/plugin-replace');
 const nodePolyfills=require('rollup-plugin-node-polyfills');
+const html=require('rollup-plugin-generate-html-template');
+const postcss=require('rollup-plugin-postcss');
+const serve=require('rollup-plugin-serve');
 const mergeWith = require('lodash.mergewith');
 const glob=require('glob');
 let server;
@@ -90,40 +93,59 @@ async function runBuild(entry,command){
     let rollupConfig=userConfig.rollupConfig||{};
     let nodeResolveOpts=userConfig.nodeResolve||{};
     let commonjsOpts=userConfig.commonjs||{};
-    if(argv.ts){
+    if(argv.ts&&!babelOptions.typescriptOptions){
         babelOptions.typescriptOptions={};
     }
-    if(argv.react){
+    if(argv.react&&babelOptions.reactOptions){
         babelOptions.reactOptions={}
     }
-    if(userConfig.babelOptions){
-        babelOptions=userConfig.babelOptions;
-    }
+
     let outputs=rollupConfig.output;
     if(outputs&&!Array.isArray(outputs)){
         outputs=[outputs];
     }
     const inputPlugins=[
+        json(),
         beep(),
-        argv.polyfillNode&&nodePolyfills({...(userConfig.nodePolyfills||{})}),
+        (userConfig.nodePolyfills!==false)&&argv.polyfillNode&&nodePolyfills({...(userConfig.nodePolyfills||{})}),
         replace({...(userConfig.replace||{})}),
         alias({
             ...(userConfig.alias||{})
         }),
-        nodeResolve({
-            extensions: ['.mjs', '.js', '.jsx','.ts','.tsx', '.json', '.sass', '.scss'],
+        (userConfig.nodeResolve!==false)&&nodeResolve({
+          //  include:"node_modules/**",
+            extensions: ['.js', '.jsx','.mjs','.ts','.tsx', '.json', '.sass', '.scss'],
             ...nodeResolveOpts
         }),
-        commonjs({exclude: 'node_modules/**',...commonjsOpts }),
-        json(),
-        babel({
+        (userConfig.commonjs!==false)&&commonjs({...commonjsOpts}),
+        (userConfig.commonjs!==false)&&babel({
         babelrc: false,
         configFile: false,
-        babelHelpers:"bundled",
-        exclude:/node_modules/,
+        babelHelpers:"bundled",//runtime
+        exclude:"node_modules/**",
+        skipPreflightCheck:true,
         extensions:['.js', '.jsx','.ts','.tsx', '.es6', '.es', '.mjs'],
         presets:[[require.resolve('@dxyl/babel-presets-dx'),babelOptions]],
-        ...(userConfig.babel||{})})].filter(Boolean);
+        ...(userConfig.babel||{})}),
+        (userConfig.postcss!==false)&&postcss({
+            extract: 'style.css',
+            ...(userConfig.postcss||{})
+        }),
+        (argv.html===true&&userConfig.html!==false)&&html({
+            template: 'src/index.html',
+            ...(userConfig.html||{})
+        }),
+        (argv.postcss===true&&userConfig.postcss!==false)&&postcss({
+            ...(userConfig.postcss||{})
+        }),
+        (argv.serve===true&&userConfig.serve!==false)&&serve({
+            open: true,
+            contentBase: 'dist',
+            port: 1234,
+            ...(userConfig.serve||{})
+        })
+            
+    ].filter(Boolean);
     const outputPlugins=[
      
     ]
@@ -234,6 +256,9 @@ commander.usage('使用rollup编译服务')
 .option('--ts [typescript]','是否支持typescript',false)
 .option('--react [react]','是否支持react',false)
 .option('-g,--glob [glob]','是否启用glob模式',false)
+.option('--html [html]','模板',false)
+.option('--serve [serve]','服务',false)
+.option('--postcss [postcss]','postcss',false)
 .option('--no-polyfill-node [polyfillNode]','是否填充nodejs')
 .option('--independent [independent]','是否以输出格式为单独目录,默认放在dist下面',false)
 .option('-o,--output <output...>','输出选项',(value,prev)=>{

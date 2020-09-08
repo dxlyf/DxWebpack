@@ -3,7 +3,7 @@
   "version": "1.0.1",
   "main": "./src/cli.js",
   "bin": {
-    "dxyl-rollup": "./bin/cli.js"
+    "dxyl-gulp": "./bin/cli.js"
   },
   "description": "rollup build",
   "files": [
