@@ -68,6 +68,8 @@ strict-mode
 typescript
 */
 module.exports=(api, opts, env)=>{
+    const presets=opts.presets||[];
+    const plugins=opts.plugins||[];
     const envOptions=opts.envOptions||{};
     const reactOptions=opts.reactOptions;
     const typescriptOptions=opts.typescriptOptions;
@@ -76,15 +78,17 @@ module.exports=(api, opts, env)=>{
             ...envOptions
         }],
         reactOptions&&[require('@babel/preset-react'),{  useBuiltIns: true,...reactOptions}],
-        typescriptOptions&&[require('@babel/preset-typescript'),{...typescriptOptions}],
+        typescriptOptions&&[require('@babel/preset-typescript'),{...typescriptOptions}],...presets
         ].filter(Boolean),
 
         plugins:[
+            [require('@babel/plugin-syntax-dynamic-import')],
             //装饰器
             [require('@babel/plugin-proposal-decorators'),{legacy:true}],
             //类属性
             [require('@babel/plugin-proposal-class-properties'),{loose:true}],
-            [require('@babel/plugin-proposal-private-methods'),{loose:true}]
-        ]
+            [require('@babel/plugin-proposal-private-methods'),{loose:true}],
+            ...plugins
+        ].filter(Boolean)
     }
 };
