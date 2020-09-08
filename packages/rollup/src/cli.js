@@ -244,7 +244,7 @@ commander.usage('使用rollup编译服务')
  
 })
 commander
-.command('build [entry]')
+.command('copy [entry]')
 .action(runBuild);
 
 commander.parse(process.argv);

@@ -1,0 +1,44 @@
+{
+  "name": "@dxyl/gulp",
+  "version": "1.0.0",
+  "main": "./src/cli.js",
+  "bin": {
+    "dxyl-rollup": "./bin/cli.js"
+  },
+  "description": "rollup build",
+  "files": [
+    "src",
+    "bin"
+  ],
+  "keywords": [
+    "gulp"
+  ],
+  "authors": [
+    "fanyonglong"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "bugs": "http://github.com/fanyonglong/DxWebpack/issues",
+  "homepage": "https://github.com/fanyonglong/DxWebpack/tree/master/packages/gulp#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fanyonglong/DxWebpack.git"
+  },
+  "scripts": {
+    "test": "node ./src/cli.js build ./examples/**/*.js"
+  },
+  "peerDependencies": {
+    "gulp": "4.x.x"
+  },
+  "dependencies": {
+    "gulp": "^4.0.2",
+    "gulp-clean": "^0.4.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-if": "^3.0.0",
+    "gulp-rename": "^2.0.0",
+    "chalk": "^4.1.0",
+    "commander": "^6.0.0"
+  }
+}
