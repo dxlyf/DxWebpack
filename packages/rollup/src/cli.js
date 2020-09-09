@@ -105,28 +105,28 @@ async function runBuild(entry,command){
         outputs=[outputs];
     }
     const inputPlugins=[
-        json(),
-        beep(),
-        (userConfig.nodePolyfills!==false)&&argv.polyfillNode&&nodePolyfills({...(userConfig.nodePolyfills||{})}),
-        replace({...(userConfig.replace||{})}),
         alias({
             ...(userConfig.alias||{})
         }),
         (userConfig.nodeResolve!==false)&&nodeResolve({
-          //  include:"node_modules/**",
-            extensions: ['.js', '.jsx','.mjs','.ts','.tsx', '.json', '.sass', '.scss'],
-            ...nodeResolveOpts
-        }),
-        (userConfig.commonjs!==false)&&commonjs({include:"node_moduels/**",...commonjsOpts}),
+            //  include:"node_modules/**",
+              extensions: ['.js', '.jsx','.mjs','.ts','.tsx', '.json', '.sass', '.scss'],
+              ...nodeResolveOpts
+          }),
+        json(),
+        beep(),
+        (userConfig.nodePolyfills!==false)&&argv.polyfillNode&&nodePolyfills({...(userConfig.nodePolyfills||{})}),
+        replace({...(userConfig.replace||{})}),
         (userConfig.babel!==false)&&babel({
         babelrc: false,
         configFile: false,
         babelHelpers:"bundled",//runtime
-        exclude:"node_modules/**",
-        skipPreflightCheck:true,
+        exclude:"**/node_modules/**",
+        //skipPreflightCheck:true,
         extensions:['.js', '.jsx','.ts','.tsx', '.es6', '.es', '.mjs'],
         presets:[[require.resolve('@dxyl/babel-presets-dx'),babelOptions]],
         ...(userConfig.babel||{})}),
+        (userConfig.commonjs!==false)&&commonjs({include:"node_moduels/**",...commonjsOpts}),
         (argv.html===true&&userConfig.html!==false)&&html({
             template: 'src/index.html',
             ...(userConfig.html||{})
@@ -137,11 +137,12 @@ async function runBuild(entry,command){
         (argv.serve===true&&userConfig.serve!==false)&&serve({
             open: true,
             contentBase: 'dist',
-            port: 1234,
+            port: 3000,
             ...(userConfig.serve||{})
         })
             
     ].filter(Boolean);
+  
     const outputPlugins=[
      
     ]
