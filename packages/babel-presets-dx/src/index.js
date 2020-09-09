@@ -68,27 +68,32 @@ strict-mode
 typescript
 */
 module.exports=(api, opts, env)=>{
-    const presets=opts.presets||[];
-    const plugins=opts.plugins||[];
+    const presets=opts.presets;
+    const extraPresets=opts.extraPresets||[];
+
+    const plugins=opts.plugins;
+    const extraPlugins=opts.extraPlugins||[];
     const envOptions=opts.envOptions||{};
     const reactOptions=opts.reactOptions;
     const typescriptOptions=opts.typescriptOptions;
+
     return {
-        presets:[[require('@babel/preset-env'),{    
+        presets:presets?presets:[[require('@babel/preset-env'),{    
             ...envOptions
         }],
         reactOptions&&[require('@babel/preset-react'),{  useBuiltIns: true,...reactOptions}],
-        typescriptOptions&&[require('@babel/preset-typescript'),{isTSX:true,allExtensions:true,...typescriptOptions}],...presets
+        typescriptOptions&&[require('@babel/preset-typescript'),{isTSX:true,allExtensions:true,allowNamespaces:true,...typescriptOptions}],...extraPresets
         ].filter(Boolean),
 
-        plugins:[
+        plugins:plugins?plugins:[
             [require('@babel/plugin-syntax-dynamic-import')],
             //装饰器
             [require('@babel/plugin-proposal-decorators'),{legacy:true}],
             //类属性
             [require('@babel/plugin-proposal-class-properties'),{loose:true}],
             [require('@babel/plugin-proposal-private-methods'),{loose:true}],
-            ...plugins
+            (typeof opts.runtime=='object'||opts.runtime==true)&&[require('@babel/plugin-transform-runtime'),opts.runtime],
+            ...extraPlugins
         ].filter(Boolean)
     }
 };

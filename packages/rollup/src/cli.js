@@ -5,7 +5,7 @@ const path=require('path');
 const chokidar=require('chokidar');//观察文件
 const chalk=require('chalk');//颜色
 const {mergeConfig,mergeOutput}=require('./util');
-const babel=require('@rollup/plugin-babel').default;
+const {default:babel,getBabelOutputPlugin}=require('@rollup/plugin-babel');
 const {nodeResolve}=require('@rollup/plugin-node-resolve');
 const alias=require('@rollup/plugin-alias');
 const commonjs=require('@rollup/plugin-commonjs');
@@ -18,6 +18,7 @@ const postcss=require('rollup-plugin-postcss');
 const serve=require('rollup-plugin-serve');
 const mergeWith = require('lodash.mergewith');
 const glob=require('glob');
+
 let server;
 function getUserConfig(){
     let opts=commander.opts();
@@ -61,9 +62,8 @@ function createInputOptions(options={},plugins=[]){
         ...options
     }
     if(!inputOptions.plugins){
-        inputOptions.plugins=[]
+        inputOptions.plugins=(inputOptions.extraPlugins||[]).concat(plugins);
     }
-    inputOptions.plugins=inputOptions.plugins.concat(plugins);
     return inputOptions;
 }
 function createOutPutOptions(options={},plugins=[]){
@@ -117,8 +117,8 @@ async function runBuild(entry,command){
             extensions: ['.js', '.jsx','.mjs','.ts','.tsx', '.json', '.sass', '.scss'],
             ...nodeResolveOpts
         }),
-        (userConfig.commonjs!==false)&&commonjs({...commonjsOpts}),
-        (userConfig.commonjs!==false)&&babel({
+        (userConfig.commonjs!==false)&&commonjs({include:"node_moduels/**",...commonjsOpts}),
+        (userConfig.babel!==false)&&babel({
         babelrc: false,
         configFile: false,
         babelHelpers:"bundled",//runtime
@@ -127,10 +127,6 @@ async function runBuild(entry,command){
         extensions:['.js', '.jsx','.ts','.tsx', '.es6', '.es', '.mjs'],
         presets:[[require.resolve('@dxyl/babel-presets-dx'),babelOptions]],
         ...(userConfig.babel||{})}),
-        (userConfig.postcss!==false)&&postcss({
-            extract: 'style.css',
-            ...(userConfig.postcss||{})
-        }),
         (argv.html===true&&userConfig.html!==false)&&html({
             template: 'src/index.html',
             ...(userConfig.html||{})

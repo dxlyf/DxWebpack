@@ -17,6 +17,19 @@
             "outFiles": [
                 "${workspaceFolder}/**/*.js"
             ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "rollup启动程序",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/packages/rollup/src/cli.js",
+            "args": ["build","index","-i","examples/index.tsx","--ts","--react"],
+            "cwd": "${workspaceFolder}/packages/rollup",
+            "port": 9223,
+            
         }
     ]
 }
