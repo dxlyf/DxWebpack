@@ -21,6 +21,7 @@ let value=12;
 let a=24
 ```
 ## 匹配模式加载模块
+
 ```js
 import {configureStore} from '@reduxjs/toolkit'
 import { requireGlob } from '../utils/util.macro'
@@ -42,8 +43,6 @@ sliceReducers=sliceReducers.reduce((memo,slice)=>{
         [slice.name]:slice.reducer
      }
 },{})
-
-
 
 const store= configureStore ({
     reducer:{
