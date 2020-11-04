@@ -2,6 +2,7 @@
 之前有在webpack通过自定义loader去导出编译后的代码。但那种无法传递结构化的参数。只能通过url形式
 
 ## 使用
+`npm i -D @dxyl/babel-macro-util`
 该库基于babel-plugin-macros
 create-react-app脚手架生成的项目自带引用了babel-plugin-macros
 ```js
