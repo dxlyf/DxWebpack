@@ -1,9 +1,10 @@
 const glob = require('glob')
 const path=require('path')
+const { createMacro } = require('babel-plugin-macros');
 let uid=0;
-class PluginManager {
-    constructor() {
-        this.plugins = new Map()
+export class PluginManager {
+    constructor(plugins) {
+        this.plugins = new Map(plugins||[])
     }
     add(name, plugin, opts) {
         this.plugins.set(name, {
@@ -26,6 +27,18 @@ class PluginManager {
 }
 export const macroPlugin = new PluginManager()
 
+export const createMacroHandle=(macroPlugin)=>{
+        return createMacro(({ references, state, babel }) => {
+            Object.keys(references).forEach((name) => {
+                const paths = references[name]
+                paths.forEach(path => {
+                    let { name, node } = getCallExpression(path)
+                    macroPlugin.apply(name, node, babel, state, babel)
+                })
+            })
+        
+        })
+}
 export function getCallExpression(path) {
     let currentPath = path.find(d => {
         return d.isCallExpression();
