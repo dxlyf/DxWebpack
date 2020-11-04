@@ -21,6 +21,178 @@ let a=24
   "plugins":["babel-plugin-macros"]
 }
 ```
+## 场景
+`index.js`
+```js
+import store from './store'
+ReactDOM.render(
+  <React.StrictMode>
+    <Provider store={store}>
+      <App></App>
+    </Provider>
+  </React.StrictMode>,
+  document.getElementById('root')
+);
+```
+`slices/global.js`
+```js
+
+export default {
+    name:"global",
+    initialState:{
+        theme:"default2",
+        count:0
+    },
+    reducers:{
+        setTheme(state,action){
+            state.theme=action.payload
+        },
+        setCount(state,action){
+            state.count+=action.payload
+        }
+    },
+    asyncReducers:{
+        async addCount(action,thunkAPI){
+                await new Promise(resolve=>{
+                    setTimeout(resolve,2000)
+                })
+                thunkAPI.dispatch({
+                    type:"global/setCount",
+                    payload:action.payload*10
+                })
+        }
+    },
+    extraReducers: builder => {
+    
+    }
+
+}
+```
+`store.js`
+```js
+import {configureStore,createAsyncThunk,createSlice,getDefaultMiddleware} from '@reduxjs/toolkit'
+import { requireGlob } from '../utils/util.macro'
+const allSlices=requireGlob('./slices/*.js');
+
+let createStoreFactory=(slices)=>{
+    let stores={}
+    let reducers={}
+    let asyncReducer=new Map()
+    let middlewares=[]
+    let asyncMiddleWare=({getState,dispatch})=>next=>action=>{
+        let type=action.type
+        if(asyncReducer.has(type)){
+           let fn=asyncReducer.get(type).fn
+           return dispatch(fn(action))
+        }else{
+           return next(action)
+        }
+    }
+    function create(sliceConfig){
+            let sliceStore=createSlice(sliceConfig)
+            if(sliceConfig.asyncReducers){
+               Object.keys(sliceConfig.asyncReducers).forEach(name=>{
+                    let type=sliceStore.name+'/'+name
+                    asyncReducer.set(type,{
+                        namspace:sliceStore.name,
+                        name:name,
+                        type:type,
+                        fn:((oldFn)=>{
+                            let ops={}
+                            if(Array.isArray(oldFn)){
+                                ops=oldFn[1]
+                                oldFn=oldFn[0]                            
+                            }
+                            let asyncFn=createAsyncThunk(type,async (action,thunkApi)=>{
+                                let result=await oldFn(action,thunkApi)
+                                return result
+                            },ops)
+                            return (action)=>{
+                                let asyncDispatch=asyncFn(action)
+                                return  (dispatch,getState)=>{
+                                     let promise=asyncDispatch(dispatch,getState)                                   
+                                     let p=Promise.resolve(promise).then((result)=>{
+                                         if(asyncFn.fulfilled.type===result.type){
+                                             return result.payload
+                                         }else if(asyncFn.rejected.type==result.type){
+                                             return Promise.reject(result)
+                                         }else{
+                                             return Promise.reject(result)
+                                         }
+                                     })
+                                     Object.assign(p,promise)
+                                     return p;
+                                }
+                            }
+                        })(sliceConfig.asyncReducers[name])
+                    })
+               })
+            }
+            reducers[sliceStore.name]=sliceStore.reducer
+            stores[sliceStore.name]=sliceStore
+            return sliceStore
+    }
+    function addMiddlewares(...fns){
+        middlewares.push(...fns)
+    }
+    slices.forEach(create)
+    addMiddlewares(...getDefaultMiddleware())
+    addMiddlewares(asyncMiddleWare)
+    return {
+        stores,
+        reducers,
+        create,
+        addMiddlewares,
+        middlewares:middlewares,
+        createStore(options={}){
+            return configureStore ({
+                middleware:middlewares,
+                reducer:reducers,
+                ...options
+            })
+        }
+    }
+}
+export default createStoreFactory(allSlices.map(slice=>slice.ref['default'])).createStore()
+```
+`app.js`
+```js
+import React from 'react';
+import {useSelector,useDispatch} from 'react-redux'
+import './App.css';
+function UpdateTheme(){
+    const dispatch=useDispatch()
+    const onChange=(e)=>{
+        dispatch({
+          type:"global/setTheme",
+          payload:e.target.value
+        })
+    }
+    const onAdd=()=>{
+       dispatch({
+         type:"global/addCount",
+         payload:10
+       }).then((result)=>{
+          console.log('result',result)
+       })
+    }
+    return <div><button onClick={onAdd}>add</button><input onChange={onChange}/></div>
+}
+function App() {
+  let global=useSelector(state=>state.global)
+  return (
+    <div className="App">
+      theme2:{global.theme}{global.count}
+      <UpdateTheme></UpdateTheme>
+    </div>
+  );
+}
+
+export default App;
+
+```
+
+
 ## 自定义宏文件
 `cust.macro.js`
 ```js
