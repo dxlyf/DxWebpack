@@ -1,7 +1,7 @@
 {
   "name": "@dxyl/babel-macro-util",
   "version": "1.0.15",
-  "main": "./lib/index.js",
+  "main": "./dist/index.js",
   "files": [
     "lib"
   ],

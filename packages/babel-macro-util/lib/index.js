@@ -2,7 +2,7 @@ const glob = require('glob')
 const path=require('path')
 const { createMacro } = require('babel-plugin-macros');
 let uid=0;
-export class PluginManager {
+class PluginManager {
     constructor(plugins) {
         this.plugins = new Map(plugins||[])
     }
@@ -25,9 +25,9 @@ export class PluginManager {
         }
     }
 }
-export const macroPlugin = new PluginManager()
+const macroPlugin = new PluginManager()
 
-export const createMacroHandle=(macroPlugin)=>{
+const createMacroHandle=(macroPlugin)=>{
         return createMacro(({ references, state, babel }) => {
             Object.keys(references).forEach((name) => {
                 const paths = references[name]
@@ -39,7 +39,7 @@ export const createMacroHandle=(macroPlugin)=>{
         
         })
 }
-export function getCallExpression(path) {
+function getCallExpression(path) {
     let currentPath = path.find(d => {
         return d.isCallExpression();
     })
@@ -55,7 +55,7 @@ export function getCallExpression(path) {
         node: currentPath
     }
 }
-export function convertToJsObject(nodePath) {
+function convertToJsObject(nodePath) {
     try {
         let source=''
         if (nodePath.type === 'Identifier') {
@@ -145,3 +145,11 @@ macroPlugin.add('importGlob', (currentPath, babel, state) => {
    }) 
    currentPath.replaceWith(t.arrayExpression(arrs))
 })
+
+module.exports={
+    PluginManager,
+    macroPlugin,
+    createMacroHandle,
+    getCallExpression,
+    convertToJsObject
+}
