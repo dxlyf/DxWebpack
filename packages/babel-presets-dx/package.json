@@ -36,5 +36,6 @@
     "@babel/preset-react": "^7.10.4",
     "@babel/preset-typescript": "^7.10.4",
     "babel-plugin-macros": "^3.0.0"
-  }
+  },
+  "gitHead": "f2ceb33a8f286707e3648856d7b73b4e458ea0aa"
 }
