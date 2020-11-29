@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.15](https://github.com/fanyonglong/DxWebpack/compare/@dxyl/babel-presets-dx@1.0.14...@dxyl/babel-presets-dx@1.0.15) (2020-11-29)
+
+**Note:** Version bump only for package @dxyl/babel-presets-dx
+
+
+
+
+
 ## [1.0.14](https://github.com/fanyonglong/DxWebpack/compare/@dxyl/babel-presets-dx@1.0.13...@dxyl/babel-presets-dx@1.0.14) (2020-11-29)
 
 **Note:** Version bump only for package @dxyl/babel-presets-dx
