@@ -73,10 +73,10 @@ module.exports=(api, opts, env)=>{
 
     const plugins=opts.plugins;
     const extraPlugins=opts.extraPlugins||[];
+
     const envOptions=opts.envOptions||{};
     const reactOptions=opts.reactOptions;
     const typescriptOptions=opts.typescriptOptions;
-
     return {
         presets:presets?presets:[[require('@babel/preset-env'),{    
             ...envOptions
@@ -86,12 +86,15 @@ module.exports=(api, opts, env)=>{
         ].filter(Boolean),
 
         plugins:plugins?plugins:[
+            // 宏
+            [require('babel-plugin-macros')]
             [require('@babel/plugin-syntax-dynamic-import')],
             //装饰器
             [require('@babel/plugin-proposal-decorators'),{legacy:true}],
             //类属性
-            [require('@babel/plugin-proposal-class-properties'),{loose:true}],
-            [require('@babel/plugin-proposal-private-methods'),{loose:true}],
+            [require('@babel/plugin-proposal-class-properties')],
+            //私有方法
+            [require('@babel/plugin-proposal-private-methods')],
             (typeof opts.runtime=='object'||opts.runtime==true)&&[require('@babel/plugin-transform-runtime'),opts.runtime],
             ...extraPlugins
         ].filter(Boolean)

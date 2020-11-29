@@ -1,14 +1,12 @@
 import path from 'path';
-import React from 'react';
-console.log(React)
+
 export default {
     rollupConfig:{
         //preserveModules:true,
        // shimMissingExports:true,
         input:{
-            'index':"./examples/index.ts"
+            'index':"./examples/es6.js"
         },
-        external:['react'],
         output:{
             esModule:true,
             format:"umd", //"amd", "cjs", "system", "es", "iife" or "umd".
@@ -28,11 +26,11 @@ export default {
         envOptions:{
          //   "useBuiltIns": "usage",
            // "corejs": "3.3.3",
-            modules:false
+           // modules:false
            //exclude: ["*node_modules/**"]
         },
-        reactOptions:{},
-        typescriptOptions:{}
+       // reactOptions:{},
+      //  typescriptOptions:{}
     },
     babel:{
         

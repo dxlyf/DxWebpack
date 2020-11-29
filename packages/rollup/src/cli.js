@@ -113,6 +113,7 @@ async function runBuild(entry,command){
               extensions: ['.js', '.jsx','.mjs','.ts','.tsx', '.json', '.sass', '.scss'],
               ...nodeResolveOpts
           }),
+        (userConfig.commonjs!==false)&&commonjs({include:["node_moduels/**"],...commonjsOpts}),
         json(),
         beep(),
         (userConfig.nodePolyfills!==false)&&argv.polyfillNode&&nodePolyfills({...(userConfig.nodePolyfills||{})}),
@@ -121,12 +122,11 @@ async function runBuild(entry,command){
         babelrc: false,
         configFile: false,
         babelHelpers:"bundled",//runtime
-        exclude:"**/node_modules/**",
+        exclude:["**/node_modules/**"],
         //skipPreflightCheck:true,
         extensions:['.js', '.jsx','.ts','.tsx', '.es6', '.es', '.mjs'],
         presets:[[require.resolve('@dxyl/babel-presets-dx'),babelOptions]],
         ...(userConfig.babel||{})}),
-        (userConfig.commonjs!==false)&&commonjs({include:"node_moduels/**",...commonjsOpts}),
         (argv.html===true&&userConfig.html!==false)&&html({
             template: 'src/index.html',
             ...(userConfig.html||{})
