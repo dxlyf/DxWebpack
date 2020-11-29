@@ -1,6 +1,6 @@
 {
   "name": "@dxyl/rollup",
-  "version": "1.0.20",
+  "version": "1.0.21",
   "main": "./src/cli.js",
   "bin": {
     "dxyl-rollup": "./bin/cli.js"
@@ -36,7 +36,7 @@
   },
   "dependencies": {
     "@babel/register": "^7.10.5",
-    "@dxyl/babel-presets-dx": "^1.0.13",
+    "@dxyl/babel-presets-dx": "^1.0.14",
     "@rollup/plugin-alias": "^3.1.1",
     "@rollup/plugin-babel": "^5.2.0",
     "@rollup/plugin-beep": "^0.2.0",
