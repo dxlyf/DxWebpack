@@ -58,15 +58,18 @@ function getUserConfig(){
 }
 
 function createInputOptions(options={},plugins=[]){
+    let {extraPlugins=[],...restOptions}=options
     let inputOptions={
-        ...options
+        plugins,
+        ...restOptions
     }
-    if(!inputOptions.plugins){
-        inputOptions.plugins=(inputOptions.extraPlugins||[]).concat(plugins);
+    if(extraPlugins){
+        inputOptions.plugins=extraPlugins.concat(inputOptions.plugins)
     }
     return inputOptions;
 }
 function createOutPutOptions(options={},plugins=[]){
+    let {extraPlugins=[],...restOptions}=options
     let outputOptions={
         banner:`/***
 @desc dx-rollup
@@ -75,13 +78,13 @@ function createOutPutOptions(options={},plugins=[]){
         entryFileNames:'[name].js',
         chunkFileNames:'[name].js',
         exports:'auto',
-       ...options,
+        plugins,
+       ...restOptions,
 
     }
-    if(!outputOptions.plugins){
-        outputOptions.plugins=[]
+    if(extraPlugins){
+        outputOptions.plugins=extraPlugins.concat(outputOptions.plugins)
     }
-    outputOptions.plugins=outputOptions.plugins.concat(plugins);
     return outputOptions
 }
 
