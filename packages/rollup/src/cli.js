@@ -120,7 +120,10 @@ async function runBuild(entry,command){
         json(),
         beep(),
         (userConfig.nodePolyfills!==false)&&argv.polyfillNode&&nodePolyfills({...(userConfig.nodePolyfills||{})}),
-        replace({...(userConfig.replace||{})}),
+        replace({
+            preventAssignment:true,
+            values:{...(userConfig.replace||{})}
+        }),
         (userConfig.babel!==false)&&babel({
         babelrc: false,
         configFile: false,
