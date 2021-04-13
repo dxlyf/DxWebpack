@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.27](https://github.com/fanyonglong/DxWebpack/compare/@dxyl/rollup@1.0.26...@dxyl/rollup@1.0.27) (2021-04-13)
+
+**Note:** Version bump only for package @dxyl/rollup
+
+
+
+
+
 ## [1.0.26](https://github.com/fanyonglong/DxWebpack/compare/@dxyl/rollup@1.0.23...@dxyl/rollup@1.0.26) (2021-04-09)
 
 **Note:** Version bump only for package @dxyl/rollup
