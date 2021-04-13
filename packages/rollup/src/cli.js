@@ -18,6 +18,7 @@ const postcss=require('rollup-plugin-postcss');
 const serve=require('rollup-plugin-serve');
 const mergeWith = require('lodash.mergewith');
 const glob=require('glob');
+const typescript=require('@rollup/plugin-typescript')
 
 let server;
 function getUserConfig(){
@@ -92,6 +93,7 @@ async function runBuild(entry,command){
     let userConfig=getUserConfig();
     
     let argv=commander.opts();
+    let tsOptions=userConfig.tsOptions
     let babelOptions=userConfig.babelOptions||{};
     let rollupConfig=userConfig.rollupConfig||{};
     let nodeResolveOpts=userConfig.nodeResolve||{};
@@ -102,12 +104,16 @@ async function runBuild(entry,command){
     if(argv.react&&babelOptions.reactOptions){
         babelOptions.reactOptions={}
     }
+    if(!tsOptions&&argv.ts){
+        tsOptions={}
+    }
 
     let outputs=rollupConfig.output;
     if(outputs&&!Array.isArray(outputs)){
         outputs=[outputs];
     }
     const inputPlugins=[
+        tsOptions&&typescript({...tsOptions}),
         alias({
             ...(userConfig.alias||{})
         }),
@@ -256,7 +262,8 @@ commander.usage('使用rollup编译服务')
 .option('-f,--format [format...]','格式',['umd'])
 .option('-w,--watch [watch]','观察',false)
 .option('-e,--exports [exports]','导出类型','auto')
-.option('--ts [typescript]','是否支持typescript',false)
+.option('--ts [typescript]','编译typescript类型，',false)
+.option('--ts2 [typescript2]','是否支持typescript',false)
 .option('--react [react]','是否支持react',false)
 .option('-g,--glob [glob]','是否启用glob模式',false)
 .option('--html [html]','模板',false)
@@ -273,6 +280,9 @@ commander.usage('使用rollup编译服务')
 })
 commander
 .command('build [entry]')
-.action(runBuild);
+.action(()=>{
+    console.log('ff',commander.opts())
+    //runBuild
+});
 
 commander.parse(process.argv);
