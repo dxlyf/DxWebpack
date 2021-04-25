@@ -93,6 +93,7 @@ async function runBuild(entry,command){
     let userConfig=getUserConfig();
     
     let argv=commander.opts();
+    let env=argv.env||userConfig.env||"production";
     let tsOptions=userConfig.tsOptions
     let babelOptions=userConfig.babelOptions||{};
     let rollupConfig=userConfig.rollupConfig||{};
@@ -128,7 +129,9 @@ async function runBuild(entry,command){
         (userConfig.nodePolyfills!==false)&&argv.polyfillNode&&nodePolyfills({...(userConfig.nodePolyfills||{})}),
         replace({
             preventAssignment:true,
-            values:{...(userConfig.replace||{})}
+            values:{
+                'process.env.NODE_ENV': JSON.stringify(env),
+                ...(userConfig.replace||{})}
         }),
         (userConfig.babel!==false)&&babel({
         babelrc: false,
@@ -261,6 +264,7 @@ commander.usage('使用rollup编译服务')
 .option('-n,--library [library]','输出包名','myLibary')
 .option('-f,--format [format...]','格式',['umd'])
 .option('-w,--watch [watch]','观察',false)
+.option('--env [exports]','环境','production')
 .option('-e,--exports [exports]','导出类型','auto')
 .option('--ts [typescript]','编译typescript类型，',false)
 .option('--ts2 [typescript2]','是否支持typescript',false)
@@ -280,9 +284,6 @@ commander.usage('使用rollup编译服务')
 })
 commander
 .command('build [entry]')
-.action(()=>{
-    console.log('ff',commander.opts())
-    //runBuild
-});
+.action(runBuild);
 
 commander.parse(process.argv);
