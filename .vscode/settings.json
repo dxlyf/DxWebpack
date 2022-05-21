@@ -1,7 +1,5 @@
 {
-    "workbench.editorAssociations": [
-    
-    ],
+    "workbench.editorAssociations": {},
     "files.associations": {
         ".ts":"typescriptreact"   
     }
