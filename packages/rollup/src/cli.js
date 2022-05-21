@@ -18,6 +18,7 @@ const postcss=require('rollup-plugin-postcss');
 const serve=require('rollup-plugin-serve');
 const mergeWith = require('lodash.mergewith');
 const glob=require('glob');
+const typescript=require('@rollup/plugin-typescript')
 
 let server;
 function getUserConfig(){
@@ -58,15 +59,18 @@ function getUserConfig(){
 }
 
 function createInputOptions(options={},plugins=[]){
+    let {extraPlugins=[],...restOptions}=options
     let inputOptions={
-        ...options
+        plugins,
+        ...restOptions
     }
-    if(!inputOptions.plugins){
-        inputOptions.plugins=(inputOptions.extraPlugins||[]).concat(plugins);
+    if(extraPlugins){
+        inputOptions.plugins=extraPlugins.concat(inputOptions.plugins)
     }
     return inputOptions;
 }
 function createOutPutOptions(options={},plugins=[]){
+    let {extraPlugins=[],...restOptions}=options
     let outputOptions={
         banner:`/***
 @desc dx-rollup
@@ -75,13 +79,13 @@ function createOutPutOptions(options={},plugins=[]){
         entryFileNames:'[name].js',
         chunkFileNames:'[name].js',
         exports:'auto',
-       ...options,
+        plugins,
+       ...restOptions,
 
     }
-    if(!outputOptions.plugins){
-        outputOptions.plugins=[]
+    if(extraPlugins){
+        outputOptions.plugins=extraPlugins.concat(outputOptions.plugins)
     }
-    outputOptions.plugins=outputOptions.plugins.concat(plugins);
     return outputOptions
 }
 
@@ -89,6 +93,8 @@ async function runBuild(entry,command){
     let userConfig=getUserConfig();
     
     let argv=commander.opts();
+    let env=argv.env||userConfig.env||"production";
+    let tsOptions=userConfig.tsOptions
     let babelOptions=userConfig.babelOptions||{};
     let rollupConfig=userConfig.rollupConfig||{};
     let nodeResolveOpts=userConfig.nodeResolve||{};
@@ -99,12 +105,16 @@ async function runBuild(entry,command){
     if(argv.react&&babelOptions.reactOptions){
         babelOptions.reactOptions={}
     }
+    if(!tsOptions&&argv.ts){
+        tsOptions={}
+    }
 
     let outputs=rollupConfig.output;
     if(outputs&&!Array.isArray(outputs)){
         outputs=[outputs];
     }
     const inputPlugins=[
+        tsOptions&&typescript({...tsOptions}),
         alias({
             ...(userConfig.alias||{})
         }),
@@ -117,7 +127,12 @@ async function runBuild(entry,command){
         json(),
         beep(),
         (userConfig.nodePolyfills!==false)&&argv.polyfillNode&&nodePolyfills({...(userConfig.nodePolyfills||{})}),
-        replace({...(userConfig.replace||{})}),
+        replace({
+            preventAssignment:true,
+            values:{
+                'process.env.NODE_ENV': JSON.stringify(env),
+                ...(userConfig.replace||{})}
+        }),
         (userConfig.babel!==false)&&babel({
         babelrc: false,
         configFile: false,
@@ -249,8 +264,10 @@ commander.usage('使用rollup编译服务')
 .option('-n,--library [library]','输出包名','myLibary')
 .option('-f,--format [format...]','格式',['umd'])
 .option('-w,--watch [watch]','观察',false)
+.option('--env [exports]','环境','production')
 .option('-e,--exports [exports]','导出类型','auto')
-.option('--ts [typescript]','是否支持typescript',false)
+.option('--ts [typescript]','编译typescript类型，',false)
+.option('--ts2 [typescript2]','是否支持typescript',false)
 .option('--react [react]','是否支持react',false)
 .option('-g,--glob [glob]','是否启用glob模式',false)
 .option('--html [html]','模板',false)

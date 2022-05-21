@@ -7,7 +7,7 @@
 create-react-app脚手架生成的项目自带引用了babel-plugin-macros
 ```js
 // 用法
-import {mul} from 'babel-macro-util/lib/util.macro'
+import {mul} from '@dxyl/babel-macro-util/lib/util.macro'
 let value=12;
 let a=mul(2,value)
 //解析后
@@ -72,7 +72,7 @@ export default {
 `store.js`
 ```js
 import {configureStore,createAsyncThunk,createSlice,getDefaultMiddleware} from '@reduxjs/toolkit'
-import { requireGlob } from '../utils/util.macro'
+import { requireGlob } from '@dxyl/babel-macro-util/util.macro'
 const allSlices=requireGlob('./slices/*.js');
 
 let createStoreFactory=(slices)=>{
@@ -197,7 +197,7 @@ export default App;
 ## 自定义宏文件
 `cust.macro.js`
 ```js
-  import {createMacroHandle,PluginManager,macroPlugin,convertToJsObject} from 'babel-macro-util'
+  import {createMacroHandle,PluginManager,macroPlugin,convertToJsObject} from '@dxyl/babel-macro-util'
 
   let custMacroPlugin=new PluginManager(macroPlugin.plugins)//继承
   custMacroPlugin.add('mul',(currentPath, babel, state) => {
@@ -211,7 +211,7 @@ util
 ```
 ## 自定义添加方法
 ```js
-import {macroPlugin,convertToJsObject} from 'babel-macro-util'
+import {macroPlugin,convertToJsObject} from '@dxyl/babel-macro-util'
 
 macroPlugin.add('mul',(currentPath, babel, state) => {
     const t = babel.types
@@ -225,7 +225,7 @@ macroPlugin.add('mul',(currentPath, babel, state) => {
 
 ```js
 import {configureStore} from '@reduxjs/toolkit'
-import { requireGlob } from '../utils/util.macro'
+import { requireGlob } from '@dxyl/babel-macro-util/util.macro'
 
 let reducers=requireGlob('./reducers/**/*.js');
 reducers=reducers.reduce((memo,reducers)=>{

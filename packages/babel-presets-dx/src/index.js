@@ -77,12 +77,15 @@ module.exports=(api, opts, env)=>{
     const envOptions=opts.envOptions||{};
     const reactOptions=opts.reactOptions;
     const typescriptOptions=opts.typescriptOptions;
+    const flowOptions=opts.flowOptions
     return {
         presets:presets?presets:[[require('@babel/preset-env'),{    
             ...envOptions
         }],
         reactOptions&&[require('@babel/preset-react'),{  useBuiltIns: true,...reactOptions}],
-        typescriptOptions&&[require('@babel/preset-typescript'),{isTSX:true,allExtensions:true,allowNamespaces:true,...typescriptOptions}],...extraPresets
+        typescriptOptions&&[require('@babel/preset-typescript'),{isTSX:true,allExtensions:true,allowNamespaces:true,...typescriptOptions}],
+        flowOptions&&[require('@babel/preset-flow'),{...flowOptions}],
+        ...extraPresets
         ].filter(Boolean),
 
         plugins:plugins?plugins:[
@@ -95,6 +98,8 @@ module.exports=(api, opts, env)=>{
             [require('@babel/plugin-proposal-class-properties')],
             //私有方法
             [require('@babel/plugin-proposal-private-methods')],
+            //of
+            ["@babel/plugin-transform-for-of", { "assumeArray": true }],
             (typeof opts.runtime=='object'||opts.runtime==true)&&[require('@babel/plugin-transform-runtime'),opts.runtime],
             ...extraPlugins
         ].filter(Boolean)
